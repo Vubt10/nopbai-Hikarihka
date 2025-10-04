@@ -7,15 +7,7 @@
 USE master;
 GO
 
--- Xóa database nếu đã tồn tại
-IF EXISTS (SELECT name FROM sys.databases WHERE name = 'QLNHATRO_<TenDangNhap>')
-BEGIN
-    ALTER DATABASE QLNHATRO_TranHuuHao SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE QLNHATRO_TranHuuHao;
-END
-GO
-
--- Tạo database mới
+-- Tạo database
 CREATE DATABASE QLNHATRO_TranHuuHao;
 GO
 

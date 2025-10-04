@@ -3,7 +3,7 @@
 -- Yêu cầu: Y2 - Nhập liệu cho các bảng
 -- =============================================
 
-USE QLNHATRO_<TenDangNhap>;
+USE QLNHATRO_TranHuuHao;
 GO
 
 -- =============================================
