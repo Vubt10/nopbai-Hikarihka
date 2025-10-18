@@ -86,3 +86,41 @@ GO
 SELECT * FROM dbo.fn_ThongTinPhong(5)
 GO
 
+--Bài 2: Tạo view
+-- 1️ Hiển thị HoNV, TenNV, TenPHG, DiaDiemPhg
+CREATE VIEW v_ThongTinNhanVien_Phong
+AS
+SELECT HONV, TENNV, PB.TENPHG, DP.DIADIEM
+FROM NHANVIEN NV
+JOIN PHONGBAN PB ON NV.PHG = PB.MAPHG
+JOIN DIADIEM_PHG DP ON PB.MAPHG = DP.MAPHG
+GO
+
+SELECT * FROM v_ThongTinNhanVien_Phong
+go
+
+-- 2️ Hiển thị TenNv, Lương, Tuổi
+CREATE VIEW v_TenLuongTuoi
+AS
+SELECT TENNV, LUONG, YEAR(GETDATE()) - YEAR(NGSINH) AS TUOI
+FROM NHANVIEN
+GO
+
+SELECT * FROM v_TenLuongTuoi
+go
+
+-- 3️ Hiển thị tên phòng ban và họ tên trưởng phòng của phòng ban có đông NV nhất
+CREATE VIEW v_PhongDongNhanVienNhat
+AS
+SELECT TOP 1 PB.TENPHG,
+       NV.HONV + ' ' + NV.TENLOT + ' ' + NV.TENNV AS TruongPhong,
+       COUNT(NV2.MANV) AS SoNhanVien
+FROM PHONGBAN PB
+JOIN NHANVIEN NV ON PB.TRPHG = NV.MANV
+JOIN NHANVIEN NV2 ON NV2.PHG = PB.MAPHG
+GROUP BY PB.TENPHG, NV.HONV, NV.TENLOT, NV.TENNV
+ORDER BY COUNT(NV2.MANV) DESC
+GO
+
+SELECT * FROM v_PhongDongNhanVienNhat
+
