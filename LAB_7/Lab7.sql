@@ -3,7 +3,7 @@ GO
 --Bài 1: (4 điểm)
 --Viết các hàm:
 -- Nhập vào MaNV cho biết tuổi của nhân viên này.
-CREATE FUNCTION fn_TuoiNhanVien (@MaNV CHAR(9))
+CREATE OR ALTER FUNCTION fn_TuoiNhanVien (@MaNV CHAR(9))
 RETURNS INT
 AS
 BEGIN
@@ -17,7 +17,7 @@ GO
 SELECT dbo.fn_TuoiNhanVien('001') AS TuoiNhanVien
 GO
 -- Nhập vào Manv cho biết số lượng đề án nhân viên này đã tham gia
-CREATE FUNCTION fn_SoLuongDeAnNV (@MaNV CHAR(9))
+CREATE OR ALTER FUNCTION fn_SoLuongDeAnNV (@MaNV CHAR(9))
 RETURNS INT
 AS
 BEGIN
@@ -31,7 +31,7 @@ GO
 SELECT dbo.fn_SoLuongDeAnNV('001') AS SoDeAn
 GO
 -- Truyền tham số vào phái nam hoặc nữ, xuất số lượng nhân viên theo phái
-CREATE FUNCTION fn_SoLuongTheoPhai (@Phai NVARCHAR(3))
+CREATE OR ALTER FUNCTION fn_SoLuongTheoPhai (@Phai NVARCHAR(3))
 RETURNS INT
 AS
 BEGIN
@@ -46,7 +46,7 @@ SELECT dbo.fn_SoLuongTheoPhai(N'Nam') AS SoNam,
        dbo.fn_SoLuongTheoPhai(N'Nữ') AS SoNu
 GO
 -- Truyền tham số đầu vào là tên phòng, tính mức lương trung bình của phòng đó, Cho họ tên nhân viên (HONV, TENLOT, TENNV) có mức lương trên mức lương trung của phòng đó.
-CREATE FUNCTION fn_NhanVienLuongTrenTB (@TenPhong NVARCHAR(50))
+CREATE OR ALTER FUNCTION fn_NhanVienLuongTrenTB (@TenPhong NVARCHAR(50))
 RETURNS TABLE
 AS
 RETURN
@@ -66,7 +66,7 @@ GO
 SELECT * FROM dbo.fn_NhanVienLuongTrenTB(N'Nghiên cứu')
 GO
 -- Tryền tham số đầu vào là Mã Phòng, cho biết tên phòng ban, họ tên người trưởng và số lượng đề án mà phòng ban đó chủ trì.
-CREATE FUNCTION fn_ThongTinPhong (@MaPhong INT)
+CREATE OR ALTER FUNCTION fn_ThongTinPhong (@MaPhong INT)
 RETURNS TABLE
 AS
 RETURN
@@ -88,7 +88,7 @@ GO
 
 --Bài 2: Tạo view
 -- 1️ Hiển thị HoNV, TenNV, TenPHG, DiaDiemPhg
-CREATE VIEW v_ThongTinNhanVien_Phong
+CREATE OR ALTER VIEW v_ThongTinNhanVien_Phong
 AS
 SELECT HONV, TENNV, PB.TENPHG, DP.DIADIEM
 FROM NHANVIEN NV
@@ -100,7 +100,7 @@ SELECT * FROM v_ThongTinNhanVien_Phong
 go
 
 -- 2️ Hiển thị TenNv, Lương, Tuổi
-CREATE VIEW v_TenLuongTuoi
+CREATE OR ALTER VIEW v_TenLuongTuoi
 AS
 SELECT TENNV, LUONG, YEAR(GETDATE()) - YEAR(NGSINH) AS TUOI
 FROM NHANVIEN
@@ -110,7 +110,7 @@ SELECT * FROM v_TenLuongTuoi
 go
 
 -- 3️ Hiển thị tên phòng ban và họ tên trưởng phòng của phòng ban có đông NV nhất
-CREATE VIEW v_PhongDongNhanVienNhat
+CREATE OR ALTER VIEW v_PhongDongNhanVienNhat
 AS
 SELECT TOP 1 PB.TENPHG,
        NV.HONV + ' ' + NV.TENLOT + ' ' + NV.TENNV AS TruongPhong,
